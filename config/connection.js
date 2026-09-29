@@ -4,14 +4,14 @@ const mongoose = require('mongoose');
 // connect to mongodb
 async function connectDB() {
   try {
-    const uri = process.env.MONGO_URI
+    const uri = process.env.MONGO_URI;
 
-    await mongoose.connect(uri)
+    await mongoose.connect(uri);
 
     console.log('Successsfully conneced to MongoDB');
     
-  } catch (error) {
-    console.error('Database connection error', error);
+  } catch (err) {
+    console.error('Database connection error', err);
     process.exit(1);
     
   }
