@@ -7,20 +7,26 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
+    required: [true, 'User name is required'],
+    unique: true,
   },
 
   email: {
     type: String,
     unique: true,
-    required: true,
+    required: [true, 'Email is required'],
+
   },
 
   password: {
     type:  String,
-    required: true,
+    required: [true, 'Password is required']
   },
-})
+
+  
+},
+  { timestamps: true }
+);
 
 //pre-save hook to hash password
 userSchema.pre("save", async function () {
@@ -28,8 +34,9 @@ userSchema.pre("save", async function () {
     return;
   }
 
+  const saltRounds = 10;
   this.password = await bcrypt.hash
-  (this.password, 10);
+  (this.password, saltRounds);
 
 });
 // password checker

@@ -6,26 +6,28 @@ const mongoose = require('mongoose');
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
-    required: true,
+    required: [true, 'Task title is required'],
   },
 
   description: {
     type: String,
-    required: false
   },
 
   status: {
     type: String,
     enum: ['To Do', 'In Progress', 'Done'],
-    default: 'To-Do'
+    default: 'To-Do',
   },
 
   project: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Project',
-    required: true
+    required: true,
   }
-})
+
+},
+  { timestamps: true }
+)
 
 
 // export model
