@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose')
 const connectDB = require('./config/connection.js');
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3009;
 
 // connect to MongoDB
 connectDB();
@@ -19,6 +19,10 @@ app.use(express.json());
 
 
 // routes
+  // test route to see if server is alive
+  app.get('/', (req, res) => {
+    res.send('TaskMaster API is running!');
+  });
 
 // port
 app.listen(PORT, () => {
