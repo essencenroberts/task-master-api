@@ -9,18 +9,23 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, 'User name is required'],
     unique: true,
+    trim: true, // added to remove extra spaces
   },
 
   email: {
     type: String,
     unique: true,
     required: [true, 'Email is required'],
+    trim: true, // added to remove extra spaces
+    lowercase: true, 
+    match: [/.+@.+\..+/, 'Must use a valid email address'],
 
   },
 
   password: {
     type:  String,
-    required: [true, 'Password is required']
+    required: [true, 'Password is required'],
+    minlength: [8, 'Password must be at least 8 characters'],
   },
 
   
@@ -35,8 +40,7 @@ userSchema.pre("save", async function () {
   }
 
   const saltRounds = 10;
-  this.password = await bcrypt.hash
-  (this.password, saltRounds);
+  this.password = await bcrypt.hash(this.password, saltRounds);
 
 });
 // password checker
@@ -47,4 +51,4 @@ async function (password) {
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User
+module.exports = User;
